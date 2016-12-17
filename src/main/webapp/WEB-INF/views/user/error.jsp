@@ -24,7 +24,7 @@
             <span class="title"><i class="fa fa-sign-in"></i> 邮件验证</span>
         </div>
         <div class="alert alert-danger">
-            <h3>账户激活失败 请重新激活</h3>
+            <h3>"${error}"已失效或错误</h3>
         </div>
 
     </div>

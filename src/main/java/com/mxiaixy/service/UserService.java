@@ -11,6 +11,7 @@ import com.mxiaixy.util.Config;
 import com.mxiaixy.util.EmailUtil;
 import com.mxiaixy.web.user.LoginServlet;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,14 @@ public class UserService {
             .expireAfterAccess(6, TimeUnit.HOURS)
             .build();
 
+    //限制用户操作频率
+    private static Cache<String ,String > foundCache = CacheBuilder.newBuilder()
+            .expireAfterAccess(60,TimeUnit.SECONDS)
+            .build();
+    //找回密码邮件验证缓存
+    private static Cache<String ,String > emailCachs = CacheBuilder.newBuilder()
+            .expireAfterAccess(6,TimeUnit.MINUTES)
+            .build();
 
     /**
      * 校验用户名是否被占用
@@ -180,6 +189,107 @@ public class UserService {
                 cache.invalidate("token");
             }
         }
+
+    }
+
+    /**
+     * 用户找回密码
+     * @param type  找回密码方式  电子邮件|手机号码
+     * @param value  用户输入的值  电子邮件|手机号码
+     * @param sessionId 当前用户的sessionid  用来限制用户重复提交表单
+     */
+    public void foundPassword(String type, String value, String sessionId) {
+
+        //判断用户sessionID 是否是同一个用户
+        logger.info("type值:::{}",type);
+        if(foundCache.getIfPresent(sessionId)==null){
+            //判断找回方式类型
+            if("email".equals(type)){
+                logger.info("用户找回方式电子邮件");
+                //判断邮件是否存在
+                User user = userDao.findByEmail(value);
+                if(user!=null){
+
+                    //创建子线程
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //向用户发送激活邮件
+                            String uuid = UUID.randomUUID().toString();//随机产生一个值
+                            String url = "http://localhost/found/active?_="+uuid;
+
+                            String  subject = "<h3>用户找回密码邮件</h3>";
+                            String   html  ="<p>请点击此链接 <a href="+url+">链接</a>找回密码 </p><p>如果不是本人操作请尽快修改密码 给您造成的不便尽情谅解！</p>";
+                            //加入缓存
+                            emailCachs.put(uuid,user.getUserName());
+                            //发送邮件
+                            EmailUtil.sendHtmlEmail(value,subject,html);
+                        }
+
+                    });
+                    thread.start();
+
+
+                }
+
+            }else if("phone".equals(type)){
+
+                logger.info("找回方式手机号码");
+            }
+            logger.info("用户输入的邮件不存在");
+
+        }else{
+            throw new ServiceException("操作频率过快请稍后再试！");
+        }
+    }
+
+
+    /**
+     * 重置密码
+     * @param token  用户严重邮件里的token值
+     */
+    public User foundPasswordUserByToken(String token) {
+
+        //获取缓存中的用户名
+        String userName = emailCachs.getIfPresent(token);
+        if(StringUtils.isEmpty(userName)){
+            throw new ServiceException("验证邮件已过期或者错误");
+        }else{
+            //通过用户名获取用户数据
+            User user = userDao.findByUserName(userName);
+            if(user==null){
+                throw new ServiceException("用户不存在");
+            }else{
+                //用户token值正确且用户存在 则返回用户数据
+                return user;
+            }
+        }
+
+    }
+
+    /**
+     * 重置密码
+     * @param password  用户输入的新密码
+     */
+    public void resetPassword(String id,String token,String password) {
+        //从缓存中获取到用户和token
+        if(emailCachs.getIfPresent(token)==null){
+            throw new ServiceException("token已过期或失效");
+        }else{
+            User user = userDao.findById(Integer.valueOf(id));
+            if(user==null){
+                throw new ServiceException("用户不存在");
+
+            }else{
+                user.setPassword(DigestUtils.md2Hex(Config.get("username_pwd_salt")+password));
+                userDao.update(user);
+                logger.info("{}重置了密码",user.getUserName());
+                //清除缓存中的token
+                emailCachs.invalidate(token);
+            }
+        }
+
+
 
     }
 }

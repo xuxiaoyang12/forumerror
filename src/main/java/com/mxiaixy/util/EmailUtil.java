@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 public class EmailUtil {
 
 
+
     //安全日志
     private static Logger logger = LoggerFactory.getLogger(EmailUtil.class);
     //发送邮件
@@ -31,7 +32,9 @@ public class EmailUtil {
             htmlEmail.addTo(toAddress);
 
             htmlEmail.send();
+            logger.info("{}邮件已发送",title);
         }catch(EmailException e){
+            logger.error("{}邮件发送异常",title);
             e.printStackTrace();
             throw new RuntimeException("邮件发送异常");
 

@@ -60,4 +60,14 @@ public class UserDao {
         Dbhelp.update(sql,user.getPassword(),user.getEmail(),user.getPhone(),user.getAvatar(),user.getState(),user.getId());
         logger.info("已执行{}语句",sql);
     }
+
+    /**
+     * 通过id=查找用户
+     * @param id
+     * @return
+     */
+    public User findById(Integer id) {
+        String sql = "select * from t_user where id = ?";
+        return Dbhelp.query(sql,new BeanHandler<User>(User.class),id);
+    }
 }
