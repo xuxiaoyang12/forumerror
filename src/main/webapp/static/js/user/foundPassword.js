@@ -44,9 +44,9 @@
                 success:function(data){
                     if(data.state=="success"){
                         alert("邮件发送成功,请注意你的邮箱");
-                        window.location.href="/login";
+                        //window.location.href="/login";
                     }else{
-                        alert(data.messages);
+                        alert(data.message);
                     }
                 },
                 error:function(data){

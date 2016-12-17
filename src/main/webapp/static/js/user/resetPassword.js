@@ -50,7 +50,7 @@
                         alert("密码修改成功 请登录");
                         window.location.href="/login";
                     }else{
-                        alert(data.messages);
+                        alert(data.message);
                     }
 
                 },

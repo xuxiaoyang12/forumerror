@@ -9,7 +9,6 @@ import com.mxiaixy.entity.User;
 import com.mxiaixy.exception.ServiceException;
 import com.mxiaixy.util.Config;
 import com.mxiaixy.util.EmailUtil;
-import com.mxiaixy.web.user.LoginServlet;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -168,7 +167,10 @@ public class UserService {
         }
     }
 
-    //激活账户
+    /**
+     * 激活账户
+     * @param token
+     */
     public void activeAccount(String token) {
 
         //通过token后获取用户名
@@ -221,6 +223,7 @@ public class UserService {
                             String  subject = "<h3>用户找回密码邮件</h3>";
                             String   html  ="<p>请点击此链接 <a href="+url+">链接</a>找回密码 </p><p>如果不是本人操作请尽快修改密码 给您造成的不便尽情谅解！</p>";
                             //加入缓存
+
                             emailCachs.put(uuid,user.getUserName());
                             //发送邮件
                             EmailUtil.sendHtmlEmail(value,subject,html);
@@ -237,7 +240,8 @@ public class UserService {
                 logger.info("找回方式手机号码");
             }
             logger.info("用户输入的邮件不存在");
-
+            //操作频率过快
+            foundCache.put(sessionId,"::::::");
         }else{
             throw new ServiceException("操作频率过快请稍后再试！");
         }

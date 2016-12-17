@@ -87,7 +87,7 @@
                         //跳转到登录界面
                         window.location.href="/login";
                     }else{
-                        alert(date.messages);
+                        alert(data.message);
                     }
                 },
                 error:function(){
