@@ -50,11 +50,17 @@
             <span class="pull-right muted" style="font-size: 12px">如果你不打算更改密码，请留空以下区域</span>
         </div>
 
-        <form action=""  id="pwdForm" class="form-horizontal">
+        <form action=""  id="resetForm" class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">原始密码</label>
+                <div class="controls">
+                    <input type="password" name="oldPassword" >
+                </div>
+            </div>
             <div class="control-group">
                 <label class="control-label">密码</label>
                 <div class="controls">
-                    <input type="password" name="password">
+                    <input type="password" name="password" id="password">
                 </div>
             </div>
             <div class="control-group">
@@ -64,7 +70,7 @@
                 </div>
             </div>
             <div class="form-actions">
-                <button type="button" id="pwdBtn" class="btn btn-primary">保存</button>
+                <button type="button" id="resetBtn" class="btn btn-primary">保存</button>
             </div>
 
         </form>
@@ -105,5 +111,6 @@
 <script src="/static/js/jquery-3.1.1.min.js"></script>
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/user/setting.js"></script>
+<script src="/static/js/user/resetPassword.js"></script>
 </body>
 </html>

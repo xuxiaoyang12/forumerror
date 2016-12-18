@@ -18,15 +18,15 @@
             <%--判断session中账户是否登陆--%>
             <c:when test="${not empty sessionScope.curr_user}">
                 <li>
-                    <a href="#">
+                    <a href="/setting">
                         <img src="http://oi2ngv1it.bkt.clouddn.com/${sessionScope.curr_user.avatar}?imageView2/1/w/30/h/30" class="img-circle" alt="">
                     </a>
                 </li>
                 <li>
-                    <a href=""><i class="fa fa-plus"></i></a>
+                    <a href="/newpost"><i class="fa fa-plus"></i></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bell"></i></a>
+                    <a href="/post"><i class="fa fa-bell"></i></a>
                 </li>
                 <li>
                     <a href="/setting"><i class="fa fa-cog"></i></a>

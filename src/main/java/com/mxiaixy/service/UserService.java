@@ -249,7 +249,7 @@ public class UserService {
 
 
     /**
-     * 重置密码
+     * 用户通过电子邮件重置密码之验证token
      * @param token  用户严重邮件里的token值
      */
     public User foundPasswordUserByToken(String token) {
@@ -296,6 +296,16 @@ public class UserService {
 
 
     }
+    public void resetPassword(String password,User user){
+        //当前用户更改密码
+        user.setPassword(DigestUtils.md5Hex(Config.get("username_pwd_salt")+password));
+        try {
+            userDao.update(user);
+        }catch (Exception e){
+            throw new ServiceException("重置密码失败 请稍后重试");
+        }
+
+    }
 
     /**
      * 更改email
@@ -306,5 +316,21 @@ public class UserService {
         user.setEmail(email);
         userDao.update(user);
         logger.info("{}邮件更改成功",user.getUserName());
+    }
+
+    /**
+     * 验证用户输入原始密码是否一致
+     * @param password
+     * @param user
+     */
+    public Boolean validatePassword(String password, User user) {
+
+        String oldPassword = user.getPassword();
+
+        if(DigestUtils.md5Hex(Config.get("username_pwd_salt")+password).equals(oldPassword)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
