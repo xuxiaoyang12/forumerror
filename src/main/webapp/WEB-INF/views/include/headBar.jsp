@@ -29,13 +29,20 @@
                     <a href="#"><i class="fa fa-bell"></i></a>
                 </li>
                 <li>
-                    <a href="setting.html"><i class="fa fa-cog"></i></a>
+                    <a href="/setting"><i class="fa fa-cog"></i></a>
                 </li>
                 <li>
                     <a href="/logout"><i class="fa fa-sign-out"></i></a>
                 </li>
             </c:when>
             <c:otherwise>
+                <c:if test="${not empty requestScope.popup}">
+                    <script>
+                        (function(){
+                            alert("账号已登出，期待您下次登陆");
+                        })();
+                    </script>
+                </c:if>
                 <li><a href="/login"><i class="fa fa-sign-in"></i></a></li>
             </c:otherwise>
         </c:choose>

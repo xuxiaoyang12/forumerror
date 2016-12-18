@@ -47,6 +47,7 @@ public class LoginServlet extends BaseServlet {
 
             map.put("state","error");
             map.put("message",e.getMessage());
+            System.out.println(e.getMessage());
         }
         renderJson(map,resp);
 

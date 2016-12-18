@@ -49,7 +49,7 @@
                         //跳转到主页面并显示用户界面
                         window.location.href="/home";
                     }else{
-                        alert("密码错误"+data.messages);
+                        alert(data.message);
                     }
 
                 },

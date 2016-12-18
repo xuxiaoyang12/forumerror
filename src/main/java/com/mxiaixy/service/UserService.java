@@ -285,7 +285,7 @@ public class UserService {
                 throw new ServiceException("用户不存在");
 
             }else{
-                user.setPassword(DigestUtils.md2Hex(Config.get("username_pwd_salt")+password));
+                user.setPassword(DigestUtils.md5Hex(Config.get("username_pwd_salt")+password));
                 userDao.update(user);
                 logger.info("{}重置了密码",user.getUserName());
                 //清除缓存中的token
@@ -295,5 +295,16 @@ public class UserService {
 
 
 
+    }
+
+    /**
+     * 更改email
+     * @param email  用户的新email
+     */
+    public void updateEmail(String email,User user) {
+
+        user.setEmail(email);
+        userDao.update(user);
+        logger.info("{}邮件更改成功",user.getUserName());
     }
 }
