@@ -32,7 +32,27 @@ public class SettingServlet extends BaseServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
+
+        //判断当前请求的是 更改电子邮件/密码/头像  -->通过url中传回的值
+        String active = req.getParameter("active");
+        if ("email".equals(active)) {
+            //修改电子邮件
+            updateEmail(req,resp);
+        } else if ("password".equals(active)) {
+           //重置密码
+        }else if("avatar".equals(active)){
+            //修改头像
+            uploadAvatar(req,resp);
+        }
+    }
+
+    /**
+     * 更改邮箱
+     * @param req
+     * @param resp
+     */
+    private void updateEmail(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String email = req.getParameter("email");//获取新邮箱
 
         //获取当前登录对象
         HttpSession session = req.getSession();
@@ -48,16 +68,6 @@ public class SettingServlet extends BaseServlet {
             map.put("message","邮件更改失败");
         }
         renderJson(map,resp);
-        //判断当前请求的是 更改电子邮件/密码/头像  -->通过url中传回的值
-        String active = req.getParameter("active");
-        if ("email".equals(active)) {
-            //修改电子邮件
-        } else if ("password".equals(active)) {
-           //重置密码
-        }else if("avatar".equals(active)){
-            //修改头像
-            uploadAvatar(req,resp);
-        }
     }
 
     private void uploadAvatar(HttpServletRequest req, HttpServletResponse resp) throws IOException {

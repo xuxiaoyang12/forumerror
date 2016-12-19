@@ -343,6 +343,7 @@ public class UserService {
 
         user.setAvatar(filekey);
         userDao.update(user);
+        logger.info("{}头像更改成功",user.getAvatar());
 
     }
 }

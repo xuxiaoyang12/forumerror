@@ -6,18 +6,21 @@
     $("#basicBtn").click(function(){
        $("#basicForm").submit();
     });
+
     $("#basicForm").validate({
         errorElement:"span",
         errorClass:"text-error",
 
         rules:{
             email:{
+                required:true,
                 email:true,
                 remote:"/login/email?type=1"
             }
         },
         messages:{
             email:{
+                required:"请输入邮箱！",
                 email:"邮箱格式错误！",
                 remote:"邮箱已被占用！"
             }
@@ -25,7 +28,7 @@
         },
         submitHandler:function(){
             $.ajax({
-                url:"/setting",
+                url:"/setting?active=email",
                 type:"post",
                 data:$("#basicForm").serialize(),
                 beforeSend:function(){
@@ -34,8 +37,10 @@
                 success:function(data){
                     if(data.state=="success"){
                         alert("修改成功")
-                    }else{}
-                    alert(data.message)
+                    }else{
+                        alert(data.message)
+                    }
+
                 },
                 error:function(){
                     alert("服务器错误")

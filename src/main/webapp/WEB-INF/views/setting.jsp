@@ -111,7 +111,6 @@
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/user/setting.js"></script>
 <script src="/static/js/uploader/webuploader.min.js"></script>
-<script src="/static/js/user/resetPassword.js"></script>
 <%--用户上传新头像--%>
 <script>
     (function(){
