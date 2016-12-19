@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by Mxia on 2016/12/17.
  */
-@WebServlet("/found/active")
+@WebServlet("/resetPassword")
 public class resetPasswordServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,10 +51,10 @@ public class resetPasswordServlet extends BaseServlet {
 
         UserService userService = new UserService();
         Map<String,Object> map = Maps.newHashMap();
-        //判断用户是否登陆
-        HttpSession session = req.getSession();
-        User curr_user = (User)session.getAttribute("curr_user");
-        if(curr_user==null) {
+//        //判断用户是否登陆
+//        HttpSession session = req.getSession();
+//        User curr_user = (User)session.getAttribute("curr_user");
+//        if(curr_user==null) {
         try {
             userService.resetPassword(id, token, password);
             map.put("state","success");
@@ -63,17 +63,17 @@ public class resetPasswordServlet extends BaseServlet {
             map.put("message",e.getMessage());
         }
 
-        }else{
-            try {
-                userService.resetPassword(password, curr_user);
-                session.invalidate();
-                map.put("state","success");
-            }catch (ServiceException e){
-                map.put("state","error");
-                map.put("message",e.getMessage());
-
-            }
-        }
+//        }else{
+//            try {
+//                userService.resetPassword(password, curr_user);
+//                session.invalidate();
+//                map.put("state","success");
+//            }catch (ServiceException e){
+//                map.put("state","error");
+//                map.put("message",e.getMessage());
+//
+//            }
+//        }
         renderJson(map,resp);
     }
 }

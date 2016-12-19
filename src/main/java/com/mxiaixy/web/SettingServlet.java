@@ -7,6 +7,7 @@ import com.mxiaixy.service.UserService;
 import com.mxiaixy.util.BaseServlet;
 import com.mxiaixy.util.Config;
 import com.qiniu.util.Auth;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,10 +41,43 @@ public class SettingServlet extends BaseServlet {
             updateEmail(req,resp);
         } else if ("password".equals(active)) {
            //重置密码
+            updatePassword(req,resp);
         }else if("avatar".equals(active)){
             //修改头像
             uploadAvatar(req,resp);
         }
+    }
+
+    /**
+     * 重置密码
+     * @param req
+     * @param resp
+     */
+    private void updatePassword(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //获取原始密码
+        String oldPassword = req.getParameter("oldPassword");
+        //获取新密码
+        String newPassword = req.getParameter("password");
+        //判断原始密码是否正确
+        HttpSession session = req.getSession();
+        User user = (User)session.getAttribute("curr_user");
+        Map<String,Object> map = Maps.newHashMap();
+        if(user.getPassword().equals(DigestUtils.md5Hex(Config.get("username_pwd_salt")+oldPassword))){
+            //更改新密码
+            UserService userService = new UserService();
+            try {
+                userService.updatePassword(user, newPassword);
+                map.put("state","success");
+            }catch (ServiceException e){
+                map.put("state","error");
+                map.put("message","密码重置失败请稍后重试！");
+            }
+        }else{
+            map.put("state","error");
+            map.put("message","原始密码错误！请重新设置");
+        }
+        renderJson(map,resp);
+
     }
 
     /**

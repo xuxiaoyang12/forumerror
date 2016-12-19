@@ -13,10 +13,7 @@
         errorClass:"text-error",
 
         rules:{
-            oldPassword:{
-                required:true,
-                remote:"/validate/password",
-            },
+
             password: {
                 required: true,
                 rangelength: [3, 10],
@@ -30,10 +27,7 @@
 
         },
         messages:{
-            oldPassword:{
-                required:"请输入旧密码",
-                remote:"原始密码错误",
-            },
+
             password:{
                 required:"请输入新密码",
                 rangelength:"密码长度3-10个字符",
@@ -47,7 +41,7 @@
         },
         submitHandler:function(){
             $.ajax({
-               url:"/found/active",
+               url:"/resetPassword",
                 type:"post",
                 data:$("#resetForm").serialize(),
                 beforeSend :function(){

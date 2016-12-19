@@ -116,17 +116,7 @@
                 complete:function(){
                     $("#resetBtn").text("保存").removeAttr("disabled");
                 },
-
             });
-
-
         }
-
     })
-
-    //头像上传js 规则验证
-    $("#")
-
-
-
 })();

@@ -21,6 +21,8 @@ import java.util.Map;
 public class LoginServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //如果用户登录状态则强制退出
+        req.getSession().removeAttribute("curr_user");
         forward("user/login.jsp",req,resp);
     }
 
