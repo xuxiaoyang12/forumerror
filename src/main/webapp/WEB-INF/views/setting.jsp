@@ -13,6 +13,7 @@
     <title>Title</title>
     <link href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/js/uploader/webuploader.css">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -87,7 +88,7 @@
             <div class="control-group">
                 <label class="control-label">当前头像</label>
                 <div class="controls">
-                    <img src="http://oi2ngv1it.bkt.clouddn.com/${curr_user.avatar}?imageView2/1/w/40/h/40" class="img-circle" alt="">
+                    <img id="newImg" src="http://oi2ngv1it.bkt.clouddn.com/${curr_user.avatar}?imageView2/1/w/40/h/40" class="img-circle" alt="">
                 </div>
             </div>
             <hr>
@@ -97,10 +98,8 @@
                 <li>如果你是男的，请不要用女人的照片作为头像，这样可能会对其他会员产生误导</li>
             </ul>
             <div class="form-actions">
-                <button type="button" id="imgBtn" class="btn btn-primary">上传新头像</button>
+                <div id="picker">上传新头像</div>
             </div>
-
-
         </form>
 
     </div>
@@ -111,6 +110,49 @@
 <script src="/static/js/jquery-3.1.1.min.js"></script>
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/user/setting.js"></script>
+<script src="/static/js/uploader/webuploader.min.js"></script>
 <script src="/static/js/user/resetPassword.js"></script>
+<%--用户上传新头像--%>
+<script>
+    (function(){
+        //上传组件
+        var webUpload = WebUploader.create({
+            swf:"/static/js/uploader/Uploader.swf",//设置如果浏览器不支持html时默认flash
+            server:"http://up-z1.qiniu.com",//设置上传的服务端
+            pick:"#picker",//设置选择文件按钮
+            auto:true ,//设置是否自动上传
+            fileVal:"file",//设置文件的名称
+            formData:{"token":"${requestScope.token}"},//获取服务端的token值
+
+        });
+        webUpload.on("uploadSuccess",function(file,data){
+            //alert(data.key);//data.key 获取上传到七牛云的文件名称
+            var filekey =data.key;//头像的名称
+            //去数据库中修改头像数据
+            $.post("/setting?active=avatar",{"filekey":filekey})
+                .done(function(data){
+                    if(data.state=="success"){
+                        //更换新头像
+                        var url = "http://oi2ngv1it.bkt.clouddn.com/"+filekey;
+                        $("#newImg").attr("src",url+"?imageView2/1/w/40/h/40");//更换设置中的头像
+                        $("#headBarImg").attr("src",url+"?imageView2/1/w/35/h/35");//更换headBar中的头像
+                    }else{
+                        alert(data.message);
+                    }
+                }).error(function(){
+                    alert("上传头像失败！");
+            });
+
+        });
+        webUpload.on("uploadError",function(){
+            alert("上传出现错误！")
+        });
+
+
+    })();
+
+
+
+</script>
 </body>
 </html>

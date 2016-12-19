@@ -333,4 +333,16 @@ public class UserService {
             return false;
         }
     }
+
+    /**
+     * 重置用户头像
+     * @param user 当前用户
+     * @param filekey 新头像的名称
+     */
+    public void uploadAvatar(User user, String filekey) {
+
+        user.setAvatar(filekey);
+        userDao.update(user);
+
+    }
 }
