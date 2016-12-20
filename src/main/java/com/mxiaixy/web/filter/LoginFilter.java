@@ -18,8 +18,7 @@ public class LoginFilter extends AbstractFilter {
         //获取配置文件中的需要过滤的字符串
         String validateUrl = filterConfig.getInitParameter("validateUrl");
                 //获取值
-        urlList = Arrays.asList(validateUrl);
-        System.out.println(validateUrl);
+        urlList = Arrays.asList(validateUrl.split(","));
 
 
     }
@@ -33,21 +32,17 @@ public class LoginFilter extends AbstractFilter {
 
         //获取用户要访问的URL
         String requsetURL = req.getRequestURI();
-        System.out.println(requsetURL);
         //如果用户未登录请求setting/....
         if(urlList !=null&&urlList.contains(requsetURL)){
             if(req.getSession().getAttribute("curr_user")==null){
                 //去登录页面
-                System.out.println("-------------------------------------------");
                 resp.sendRedirect("/login?redirect="+requsetURL);
 
             }else{
-                System.out.println("------------------333-------------------------");
                 filterChain.doFilter(req,resp);
 
             }
         }else{
-            System.out.println("44");
             filterChain.doFilter(req,resp);
 
         }

@@ -25,22 +25,21 @@
             <span class="title"><i class="fa fa-plus"></i> 发布新主题</span>
         </div>
 
-        <form action="" style="padding: 20px">
+        <form action="" id="topicForm" style="padding: 20px">
             <label class="control-label">主题标题</label>
-            <input type="text" style="width: 100%;box-sizing: border-box;height: 30px" placeholder="请输入主题标题，如果标题能够表达完整内容，则正文可以为空">
+            <input type="text" style="width: 100%;box-sizing: border-box;height: 30px" name="title" id="title" placeholder="请输入主题标题，如果标题能够表达完整内容，则正文可以为空">
             <label class="control-label">正文</label>
-            <textarea name="" id="editor"></textarea>
+            <textarea name="content" id="content"></textarea>
 
-            <select name="" id="" style="margin-top:15px;">
+            <select name="nodeId" id="nodeId" style="margin-top:15px;">
                 <option value="">请选择节点</option>
                 <c:forEach items="${requestScope.nodeList}" var="node">
-                    <option value="">${node.nodeName}</option>
+                    <option value="${node.id}">${node.nodeName}</option>
                 </c:forEach>
             </select>
-
         </form>
         <div class="form-actions" style="text-align: right">
-            <button class="btn btn-primary">发布主题</button>
+            <button id="topicBtn" type="button" class="btn btn-primary">发布主题</button>
         </div>
 
 
@@ -49,18 +48,21 @@
 </div>
 <!--container end-->
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-<script src="js/editer/scripts/module.min.js"></script>
-<script src="js/editer/scripts/hotkeys.min.js"></script>
-<script src="js/editer/scripts/uploader.min.js"></script>
-<script src="js/editer/scripts/simditor.min.js"></script>
+<script src="/static/js/editer/scripts/module.min.js"></script>
+<script src="/static/js/editer/scripts/hotkeys.min.js"></script>
+<script src="/static/js/editer/scripts/uploader.min.js"></script>
+<script src="/static/js/editer/scripts/simditor.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
 <script>
     $(function(){
         var editor = new Simditor({
-            textarea: $('#editor')
+            textarea: $('#content')
             //optional options
         });
     });
 </script>
+<script src="/static/js/topic/newTopic.js"></script>
+
 
 </body>
 </html>

@@ -1,7 +1,9 @@
 package com.mxiaixy.util;
 
+import com.mxiaixy.exception.DataAccessException;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +51,21 @@ public class Dbhelp {
                         close(con);
                 }
 
+
+        }
+        public static Integer insert(String sql, Object...params){
+                //Connection con = ConnectionManager.getConnection();
+                Connection con = ConnectionManager.getConnection();
+
+                try {
+                        logger.info("  topic  Dbhelp执行{}",sql);
+                      return   queryRunner.insert(con,sql,new ScalarHandler<Long>(),params).intValue();
+
+                } catch (SQLException e) {
+                       throw new DataAccessException("执行"+sql+"异常");
+                }finally{
+                        close(con);
+                }
 
         }
         //关闭数据库

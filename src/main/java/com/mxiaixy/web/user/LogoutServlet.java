@@ -22,6 +22,7 @@ public class LogoutServlet extends BaseServlet {
         session.removeAttribute("curr_user");
 
         req.setAttribute("popup","为了使用户登陆时提示");//无意义参数 只是为了是用户登出时弹窗提示
-        forward("index.jsp",req,resp);
+        req.setAttribute("message","账号已安全退出");
+        forward("user/login.jsp",req,resp);
     }
 }
