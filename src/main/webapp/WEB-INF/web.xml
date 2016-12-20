@@ -19,4 +19,19 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
+
+  <!--登录过滤器-->
+  <filter>
+    <filter-name>loginFilter</filter-name>
+    <filter-class>com.mxiaixy.web.filter.LoginFilter</filter-class>
+    <init-param>
+      <param-name>validateUrl</param-name>
+      <param-value>/setting</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

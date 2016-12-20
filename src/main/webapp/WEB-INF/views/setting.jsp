@@ -121,7 +121,7 @@
             pick:"#picker",//设置选择文件按钮
             auto:true ,//设置是否自动上传
             fileVal:"file",//设置文件的名称
-            formData:{"token":"${requestScope.token}"},//获取服务端的token值
+            formData:{"token":"${requestScope.token}"}//获取服务端的token值
             /*accept: {
              title: 'Images',
              extensions: 'gif,jpg,jpeg,bmp,png',
@@ -136,7 +136,6 @@
                 .done(function(data) {
                     if(data.state=="success"){
                         //更换新头像
-
                         var url = "http://oi2ngv1it.bkt.clouddn.com/"+filekey;
                         $("#newImg").attr("src",url+"?imageView2/1/w/40/h/40");//更换设置中的头像
                         $("#headBarImg").attr("src",url+"?imageView2/1/w/35/h/35");//更换headBar中的头像

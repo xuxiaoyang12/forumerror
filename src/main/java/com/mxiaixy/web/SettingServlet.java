@@ -24,12 +24,15 @@ import java.util.Map;
 public class SettingServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //获取七牛云的token值
-        Auth auth =  Auth.create(Config.get("qiniu_ak"),Config.get("qiniu_sk"));
-        String token = auth.uploadToken(Config.get("qiniu_bucketNum"));
 
-        req.setAttribute("token",token);
-        forward("setting.jsp",req,resp);
+            //获取七牛云的token值
+            Auth auth = Auth.create(Config.get("qiniu_ak"), Config.get("qiniu_sk"));
+            String token = auth.uploadToken(Config.get("qiniu_bucketNum"));
+
+            req.setAttribute("token", token);
+
+            forward("setting.jsp", req, resp);
+
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
