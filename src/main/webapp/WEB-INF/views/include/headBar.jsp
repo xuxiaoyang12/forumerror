@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/newpost"><i class="fa fa-plus"></i></a>
+                    <a href="/newTopic"><i class="fa fa-plus"></i></a>
                 </li>
                 <li>
                     <a href="/post"><i class="fa fa-bell"></i></a>

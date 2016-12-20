@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,9 +33,9 @@
 
             <select name="" id="" style="margin-top:15px;">
                 <option value="">请选择节点</option>
-                <option value="">问与答</option>
-                <option value="">分享</option>
-                <option value="">Java</option>
+                <c:forEach items="${requestScope.nodeList}" var="node">
+                    <option value="">${node.nodeName}</option>
+                </c:forEach>
             </select>
 
         </form>
