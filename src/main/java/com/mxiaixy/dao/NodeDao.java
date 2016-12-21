@@ -2,6 +2,7 @@ package com.mxiaixy.dao;
 
 import com.mxiaixy.entity.Node;
 import com.mxiaixy.util.Dbhelp;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.util.List;
@@ -19,5 +20,15 @@ public class NodeDao {
     public List<Node> findAll() {
         String sql  = "select * from t_node ";
         return Dbhelp.query(sql,new BeanListHandler<Node>(Node.class));
+    }
+
+    /**
+     * 通过id获取对象
+     * @param nodeId
+     * @return
+     */
+    public static Node findById(Integer nodeId) {
+        String sql = "select * from t_node where id = ?";
+        return Dbhelp.query(sql,new BeanHandler<Node>(Node.class),nodeId);
     }
 }

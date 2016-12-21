@@ -1,4 +1,4 @@
-package com.mxiaixy.web;
+package com.mxiaixy.web.user;
 
 import com.google.common.collect.Maps;
 import com.mxiaixy.entity.User;
@@ -31,7 +31,7 @@ public class SettingServlet extends BaseServlet {
 
             req.setAttribute("token", token);
 
-            forward("setting.jsp", req, resp);
+            forward("user/setting.jsp", req, resp);
 
     }
     @Override

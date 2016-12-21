@@ -15,7 +15,7 @@ public class Topic {
     private Timestamp createTime;//发帖时间
     private Integer thanksNum;//感谢人数
     private Integer favNum;//收藏人数
-    private Integer click;//点击次数
+    private Integer clickNum;//点击次数
     private Integer userId;//发帖id
     private Integer nodeId;//标签id
     private Integer replyNum;//回复次数
@@ -23,6 +23,15 @@ public class Topic {
 
 
     private User user;
+    private Node node;
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
 
     public Integer getReplyNum() {
         return replyNum;
@@ -88,12 +97,12 @@ public class Topic {
         this.favNum = favNum;
     }
 
-    public Integer getClick() {
-        return click;
+    public Integer getClickNum() {
+        return clickNum;
     }
 
-    public void setClick(Integer click) {
-        this.click = click;
+    public void setClickNum(Integer click) {
+        this.clickNum = click;
     }
 
     public Integer getUserId() {

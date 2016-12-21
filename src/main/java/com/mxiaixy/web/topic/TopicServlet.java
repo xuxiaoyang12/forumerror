@@ -32,7 +32,7 @@ public class TopicServlet extends BaseServlet {
         try {
             List<Node> nodeList = topicService.findAll();
             req.setAttribute("nodeList",nodeList);
-            forward("user/newTopic.jsp",req,resp);
+            forward("topic/newTopic.jsp",req,resp);
         }catch(Exception e){
             resp.sendError(404);
         }

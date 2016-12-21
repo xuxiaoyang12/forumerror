@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-<%@include file="include/headBar.jsp"%>
+<%@include file="../include/headBar.jsp"%>
 <div class="container">
     <div class="box">
         <div class="box-header">

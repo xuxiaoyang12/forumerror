@@ -38,7 +38,7 @@
 
                    if(data.state=="success"){
                        alert(data.topicId);
-                       window.location.href="/post";
+                       window.location.href="/post?id="+data.topicId;
                    }else{
                        aler(data.message)
                    }
